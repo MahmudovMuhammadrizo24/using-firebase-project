@@ -1,49 +1,17 @@
-import { auth, provider } from './FirebaseConfig';
-import { useState } from 'react';
-import { signInWithPopup } from 'firebase/auth';
+import { Routes, Route } from "react-router-dom";
+import Home from "./page/home";
+import Login from "./page/login";
+import Register from "./page/register";
+interface AppProps { }
 
-function App() {
-
-  const [user, setUser] = useState(null);
-
-  const handleGoogleSignIn = () => {
-    signInWithPopup(auth, provider).then((result) => {
-      const user = result.user;
-      console.log(user);
-      setUser(user);
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
-
-  const handleLogout = () => {
-    setUser(null);
-  }
-
+const App = (props: AppProps) => {
   return (
-    <div className="wrapper">
-      <div className='box'>
-        {user ? (
-          <>
-            <button className='btn btn-secondary btn-md'
-              onClick={handleLogout}>
-              LOGOUT
-            </button>
-            <h3>Welcome {user.displayName}</h3>
-            <p>{user.email}</p>
-            <div className='photo'>
-              <img src={user.photoURL} alt="dp" referrerPolicy='no-referrer' />
-            </div>
-          </>
-        ) : (
-          <button className='btn btn-danger btn-md'
-            onClick={handleGoogleSignIn}>
-            Sign In With Google
-          </button>
-        )}
-      </div>
-    </div>
-  );
+    <Routes>
+      <Route path="/" Component={Home} />
+      <Route path="/login" Component={Login} />
+      <Route path="/register" Component={Register} />
+    </Routes>
+  )
 }
 
 export default App;
